@@ -93,6 +93,27 @@
         <origin xyz="0.2325 0.0001 1.9201" rpy="-0.0012 0.1146 -0.0015" />
     </joint>
 
+    <link name="center_wheel">
+        <visual>
+            <geometry>
+                <cylinder radius="0.15" length="0.05" />
+            </geometry>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="0.15" length="0.05" />
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="base_center_wheel_joint" type="continuous">
+        <parent link="base" />
+        <child link="center_wheel" />
+        <origin xyz="0.10 0.0 0.0" rpy="-1.5707 0.0 0.0" />
+        <axis xyz="0.0 0.025 0.0" rpy="0 0 0" />
+        <limit effort="10000" velocity="1000" />
+    </joint>
+
     <xacro:macro name="wheel" params="side reflect">
         <link name="${side}_wheel">
             <visual>
@@ -107,10 +128,12 @@
             </collision>
         </link>
 
-        <joint name="base_${side}_wheel" type="fixed">
+        <joint name="base_${side}_wheel" type="continuous">
             <parent link="base" />
             <child link="${side}_wheel" />
             <orgin xyz="-0.10 (${0.4 * reflect}) 0.0" rpy="-1.5707 0.0 0.0" />
+            <axis xyz="0.0 0.025 0.0" rpy="0 0 0" />
+            <limit effort="10000" velocity="1000" />
         </joint>
     </xacro:macro>
 
